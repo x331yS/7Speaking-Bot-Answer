@@ -9,6 +9,7 @@
 // ==/UserScript==
 
 /*
+<<<<<<< HEAD
  *************************************
  ************ 7SPEAKING BOT ***********
  *************************************
@@ -16,6 +17,8 @@
 let title = "7Speaking LMS";
 
 /*
+=======
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
  ******* CONFIGURATION *******
  */
 // Set this to 0 for normal mode
@@ -23,7 +26,11 @@ let title = "7Speaking LMS";
 // Set this to 2 for no automatic response and no logs, just a green background on rigth response
 // Set this to 3 for no automatic response, no logs, no automatic navigation, hidden response in title/URL
 // Set this to 4 for the same as 3 but with a no delay before showing the response
+<<<<<<< HEAD
 let hiddenLevel = 1;
+=======
+let hiddenLevel = 0;
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
 
 // Set the place where you want to hide the response in hiddenLevel 3.
 // You can choose one and set multiple between:
@@ -80,9 +87,12 @@ let numberMapResponse = {
 // This table is void. It's used to store response parse from URL.
 let responseMapQuestion = {};
 
+<<<<<<< HEAD
 // This table is use to store the answer of quiz
 let quizAnswerMap = {};
 
+=======
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
 /*
  ******* FUNCTIONS *******
  */
@@ -93,12 +103,19 @@ const isPath = (regex) => regex.test(location.pathname);
 const isThereAudio = () => document.querySelector("audio") !== null;
 const min = (a, b) => (a < b ? a : b);
 const randomBool = () => Math.random() > 0.8;
+<<<<<<< HEAD
 function error(message) {
   log(message);
 }
 // This function is used to log text in the console depending on the hiddenLevel
 function log(...text) {
   if (hiddenLevel <= 1) {
+=======
+
+// This function is used to log text in the console depending on the hiddenLevel
+function log(...text) {
+  if (hiddenLevel >= 0) {
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
     console.log("[7Speaking Bot]", ...text);
   }
 }
@@ -114,6 +131,7 @@ function getExamMode() {
     }
   }
 }
+<<<<<<< HEAD
 // This function is used to return the id of test
 function getExamId() {
   const search = new URLSearchParams(location.search);
@@ -124,6 +142,9 @@ function getExamId() {
     return 1;
   }
 }
+=======
+
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
 // This function is used to get the time we should wait as a real person to respond.
 async function getTimeTosleep(answer) {
   if (hiddenLevel != 4) {
@@ -140,13 +161,20 @@ async function getTimeTosleep(answer) {
   return 0;
 }
 // This function is used to wait for an element to load in the page
+<<<<<<< HEAD
 async function waitForQuerySelector(selector, logEnabled = true, timeout = 50) {
+=======
+async function waitForQuerySelector(selector, logEnabled = true) {
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
   if (logEnabled) {
     log(`Waiting for querySelector('${selector}')`);
   }
 
   return new Promise((resolve, reject) => {
+<<<<<<< HEAD
     let current = 0
+=======
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
     const e = document.querySelector(selector);
 
     if (e) {
@@ -154,11 +182,15 @@ async function waitForQuerySelector(selector, logEnabled = true, timeout = 50) {
     }
     const interval = setInterval(() => {
       const e = document.querySelector(selector);
+<<<<<<< HEAD
       current++;
       if(current >= timeout) {
         clearInterval(interval);
         resolve("Timeout");
       }
+=======
+
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
       if (e) {
         clearInterval(interval);
         resolve(e);
@@ -194,11 +226,28 @@ async function getContainer(logEnabled = true) {
   const e = await waitForQuerySelector(".question_content", logEnabled);
   return getReactElement(e);
 }
+<<<<<<< HEAD
+=======
+// This function is used to return the id of test
+function getTestId() {
+  const search = new URLSearchParams(location.search);
+
+  if (search.has("id")) {
+    return search.get("id");
+  } else {
+    return 1;
+  }
+}
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
 // This function is used to get the correct answer of the question without any delay and mistakes
 async function getExamAnswer() {
   if ((await getExamQuestion()).type == "sampleResponse") {
     log(`This is not a question, so it doesn't need an answer. Skipping...`);
+<<<<<<< HEAD
     return { SKIP: true };
+=======
+    return {"SKIP": true};
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
   }
   let container = await getContainer(false);
   let answer = null;
@@ -246,7 +295,11 @@ async function getExamAnswer() {
 async function getExamAnswerFromURL() {
   if ((await getExamQuestion().type) == "sampleResponse") {
     log(`This is not a question, so it doesn't need an answer. Skipping...`);
+<<<<<<< HEAD
     return { SKIP: true };
+=======
+    return {"SKIP": true};
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
   }
   return new Promise(async (resolve, reject) => {
     log(
@@ -268,7 +321,11 @@ async function getExamAnswerFromURL() {
     request.open(
       "GET",
       `https://platform.7speaking.com/apiws/toefl.cfc?` +
+<<<<<<< HEAD
         `testid=${getExamId()}` +
+=======
+        `testid=${getTestId()}` +
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
         `&partid=${questionPos.partIdx + 1}` +
         `&method=get${mode}test` +
         `&sessionId=${sessionId}` +
@@ -320,7 +377,11 @@ async function getExamWrongAnswer() {
     case "array_lists":
       return [{ colNumber: 1, value: ["A"] }];
   }
+<<<<<<< HEAD
   return "A";
+=======
+  return "A"
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
 }
 
 // This function is used to get the question details of the current page (id, number, title)
@@ -405,10 +466,17 @@ async function respondExam(question, answer, mode) {
         }
         break;
       case "checkbox":
+<<<<<<< HEAD
         answer = answer.join(",");
         break;
       case "array_lists":
         answer = answer;
+=======
+        answer = answer.join(",")
+        break;
+      case "array_lists":
+        answer = answer
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
         break;
     }
     if (hiddenLevel == 0) {
@@ -456,12 +524,20 @@ async function respondExam(question, answer, mode) {
         {
           questionid: question.id,
           useranswer: answer,
+<<<<<<< HEAD
         },
+=======
+        }
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
       ];
 
       log("Sending response", userAnswers);
       request.send(
+<<<<<<< HEAD
         `testid=${getExamId()}&useranswers=${JSON.stringify(userAnswers)}`
+=======
+        `testid=${getTestId()}&useranswers=${JSON.stringify(userAnswers)}`
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
       );
     } else if (hiddenLevel == 1 || hiddenLevel == 2) {
       log(
@@ -485,12 +561,21 @@ async function respondExam(question, answer, mode) {
       await sleep(300);
       resolve(true);
     } else if (hiddenLevel == 3 || hiddenLevel == 4) {
+<<<<<<< HEAD
       if (question.type == "array_lists") {
         let tmp = "";
         for (let i = 0; i < answer.length; i++) {
           tmp += answer[i].colnumber + "-" + answer[i].value.join(",") + "/";
         }
         answer = tmp;
+=======
+      if(question.type == "array_lists") {
+        let tmp = ""
+        for (let i = 0; i < answer.length; i++) {
+          tmp += answer[i].colnumber + "-" + answer[i].value.join(",") + "/"
+        }
+        answer = tmp
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
       }
       if (hiddingPlace.includes("TITLE")) {
         document.title = answer + "Speaking LMS";
@@ -502,7 +587,11 @@ async function respondExam(question, answer, mode) {
         let waitedTime = 0;
         let question = await getExamQuestion();
         let questionPos = await getExamQuestionPosition();
+<<<<<<< HEAD
         log("You need to wait:", hideDuration / 1000, "seconds");
+=======
+        log("You need to wait:", hideDuration/1000, "seconds");
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
         while (waitedTime < hideDuration / 1000) {
           if (!(await IsSameQuestion(questionPos, question.id))) {
             questionPos = await getExamQuestionPosition();
@@ -571,7 +660,11 @@ async function completeExam(mode) {
   let question = await getExamQuestion();
   // reset response hiding place
   if (hiddenLevel == 3) {
+<<<<<<< HEAD
     document.title = document.title.replace(answer, "7");
+=======
+    document.title =document.title.replace(answer, "7");
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
     location.hash = "";
   }
 
@@ -617,8 +710,13 @@ async function completeExam(mode) {
   // This function is used to find the answer of the question with delay and random response
   async function findAnswer() {
     let answer = await getExamAnswer();
+<<<<<<< HEAD
     if (!answer?.SKIP) {
       log("Answer found", answer);
+=======
+    if(!answer?.SKIP) {
+      log("Answer found", answer);      
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
     }
     if (answer == null) {
       return null;
@@ -676,6 +774,7 @@ async function completeExam(mode) {
   }
 }
 
+<<<<<<< HEAD
 /*
  *************************************
  ************ QUIZ FUNCTIONS *********
@@ -1050,6 +1149,8 @@ async function completeQuiz() {
     return await getQuizQuestionAnswer();
   }
 }
+=======
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
 // This function is used to start the bot and navigate through the website automatically
 async function start() {
   while (true) {
@@ -1120,6 +1221,7 @@ async function start() {
       }
 
       quizButton.click();
+<<<<<<< HEAD
     } else if (isPath(/^\/document\/\d+/)) {
       if (hiddenLevel == 0 && autoNavigation) {
         log(`Current route is /document`);
@@ -1132,16 +1234,39 @@ async function start() {
       await getQuizAnswerFromURL();
       await sleep(200);
     } else if (isPath(/^\/quiz/)) {
+=======
+    } else if (
+      isPath(/^\/document\/\d+/) &&
+      hiddenLevel == 0 &&
+      autoNavigation
+    ) {
+      log(`Current route is /document`);
+
+      const e = await waitForQuerySelector(".appBarTabs__testTab");
+      e.click();
+    } /*  else if (isPath(/^\/quiz/)) {
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
       log(`Current route is /quiz`);
 
       await waitForQuerySelector(".quiz__container");
 
+<<<<<<< HEAD
       if (document.querySelector(".result-container") && autoNavigation) {
         location.href = "/home";
       } else {
         await completeQuiz();
       }
     } else {
+=======
+      if (document.querySelector(".result-container")) {
+        location.href = "/home";
+      } else {
+        if (hiddenLevel == 0) {
+          await completeQuiz();
+        }
+      }
+    } */ else {
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
       await sleep(1000);
     }
   }

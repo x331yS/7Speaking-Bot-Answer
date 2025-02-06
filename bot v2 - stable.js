@@ -45,7 +45,11 @@ let actualGood = 0;
 let actualFalse = 0;
 
 // This table contains all available exam modes
+<<<<<<< HEAD
 let availableExamModes = ["toeic", "toefl"];
+=======
+let availableExamModes = ["toeic"];
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
 
 // This table is use to convert response into a number of seconds to wait
 let responseMap = {
@@ -70,9 +74,12 @@ let numberMapResponse = {
   4: "D",
 };
 
+<<<<<<< HEAD
 // This table is void. It's used to store response parse from URL.
 let responseMapQuestion = {};
 
+=======
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
 /*
  ******* FUNCTIONS *******
  */
@@ -86,6 +93,7 @@ const randomBool = () => Math.random() > 0.8;
 
 // This function is used to log text in the console depending on the hiddenLevel
 function log(...text) {
+<<<<<<< HEAD
   if (hiddenLevel <= 1) {
     console.log("[7Speaking Bot]", ...text);
   }
@@ -102,6 +110,12 @@ function getExamMode() {
     }
   }
 }
+=======
+  if (hiddenLevel >= 0) {
+    console.log("[7Speaking Bot]", ...text);
+  }
+}
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
 
 // This function is used to get the time we should wait as a real person to respond.
 async function getTimeTosleep(answer) {
@@ -113,7 +127,11 @@ async function getTimeTosleep(answer) {
       let desc = document.querySelector(".main_question_description");
       if (!desc) return 11.75; // The time needed to read 150 characters
       else desc = desc.textContent.length;
+<<<<<<< HEAD
       return min(48 * desc, 11.75);
+=======
+      return 48 * desc;
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
     }
   }
   return 0;
@@ -180,10 +198,13 @@ function getTestId() {
 }
 // This function is used to get the correct answer of the question without any delay and mistakes
 async function getExamAnswer() {
+<<<<<<< HEAD
   if ((await getExamQuestion()).type == "sampleResponse") {
     log(`This is not a question, so it doesn't need an answer. Skipping...`);
     return {"SKIP": true};
   }
+=======
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
   let container = await getContainer(false);
   let answer = null;
   while (container) {
@@ -193,7 +214,11 @@ async function getExamAnswer() {
       if (
         question.userAnswers != null ||
         question.answer != null ||
+<<<<<<< HEAD
         question.iscorrect == 1
+=======
+        question.iscorrect == true
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
       ) {
         return null;
       }
@@ -209,11 +234,15 @@ async function getExamAnswer() {
       }
       // If the answer is not directly in the question, get it from the error message
       if (question.answer == null) {
+<<<<<<< HEAD
         try {
           answer = question.errorMessage.split("(")[1].slice(0, 1);
         } catch (error) {
           answer = await getExamAnswerFromURL();
         }
+=======
+        answer = question.errorMessage.split("(")[1].slice(0, 1);
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
       } else {
         // If the answer is directly in the question, get it
         answer = question.answer;
@@ -227,6 +256,7 @@ async function getExamAnswer() {
 
   return null;
 }
+<<<<<<< HEAD
 async function getExamAnswerFromURL() {
   if ((await getExamQuestion().type) == "sampleResponse") {
     log(`This is not a question, so it doesn't need an answer. Skipping...`);
@@ -307,6 +337,8 @@ async function getExamWrongAnswer() {
   return "A"
 }
 
+=======
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
 // This function is used to get the question details of the current page (id, number, title)
 async function getExamQuestion() {
   let container = await getContainer(false);
@@ -316,8 +348,12 @@ async function getExamQuestion() {
       return {
         id: question.id,
         title: question.title,
+<<<<<<< HEAD
         number: question.title?.split("Question ")[1],
         type: question.type,
+=======
+        number: question.title.split("Question ")[1],
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
       };
     }
     container = container.return;
@@ -371,6 +407,7 @@ async function nextResponse() {
 }
 // This function is used to show response to the user depending on the hiddenLevel
 async function respondExam(question, answer, mode) {
+<<<<<<< HEAD
   if (answer == null) {
     return new Promise((resolve, reject) => {
       resolve(false);
@@ -394,6 +431,11 @@ async function respondExam(question, answer, mode) {
       case "array_lists":
         answer = answer
         break;
+=======
+  return new Promise(async (resolve, reject) => {
+    if (!isNaN(answer)) {
+      answer = numberMapResponse[answer];
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
     }
     if (hiddenLevel == 0) {
       log(
@@ -415,6 +457,13 @@ async function respondExam(question, answer, mode) {
       );
       request.setRequestHeader("Accept", "application/json, text/plain, */*");
       request.setRequestHeader(
+<<<<<<< HEAD
+=======
+        "Accept-Language",
+        "fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7"
+      );
+      request.setRequestHeader(
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
         "Content-Type",
         "application/x-www-form-urlencoded"
       );
@@ -436,6 +485,7 @@ async function respondExam(question, answer, mode) {
           resolve(true);
         }
       };
+<<<<<<< HEAD
       let userAnswers = [
         {
           questionid: question.id,
@@ -446,6 +496,12 @@ async function respondExam(question, answer, mode) {
       log("Sending response", userAnswers);
       request.send(
         `testid=${getTestId()}&useranswers=${JSON.stringify(userAnswers)}`
+=======
+      request.send(
+        `testid=${getTestId()}&useranswers=%5B%7B%22questionid%22%3A${
+          question.id
+        }%2C%22useranswer%22%3A%22${responseMapNumber[answer]}%22%7D%5D`
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
       );
     } else if (hiddenLevel == 1 || hiddenLevel == 2) {
       log(
@@ -469,6 +525,7 @@ async function respondExam(question, answer, mode) {
       await sleep(300);
       resolve(true);
     } else if (hiddenLevel == 3 || hiddenLevel == 4) {
+<<<<<<< HEAD
       if(question.type == "array_lists") {
         let tmp = ""
         for (let i = 0; i < answer.length; i++) {
@@ -478,6 +535,10 @@ async function respondExam(question, answer, mode) {
       }
       if (hiddingPlace.includes("TITLE")) {
         document.title = answer + "Speaking LMS";
+=======
+      if (hiddingPlace.includes("TITLE")) {
+        document.title = answer + document.title.slice(1);
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
       }
       if (hiddingPlace.includes("URL")) {
         location.hash = answer;
@@ -486,7 +547,11 @@ async function respondExam(question, answer, mode) {
         let waitedTime = 0;
         let question = await getExamQuestion();
         let questionPos = await getExamQuestionPosition();
+<<<<<<< HEAD
         log("You need to wait:", hideDuration/1000, "seconds");
+=======
+        log("You need to wait:", hideDuration, "seconds");
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
         while (waitedTime < hideDuration / 1000) {
           if (!(await IsSameQuestion(questionPos, question.id))) {
             questionPos = await getExamQuestionPosition();
@@ -498,7 +563,11 @@ async function respondExam(question, answer, mode) {
             answer = await getExamAnswer();
 
             if (hiddingPlace.includes("TITLE")) {
+<<<<<<< HEAD
               document.title = answer + "Speaking LMS";
+=======
+              document.title = answer + document.title.slice(1);
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
             }
             if (hiddingPlace.includes("URL")) {
               location.hash = answer;
@@ -507,12 +576,20 @@ async function respondExam(question, answer, mode) {
           await sleep(hideDuration / 10);
           waitedTime += hideDuration / 1000 / 10;
         }
+<<<<<<< HEAD
         document.title = document.title.replace(answer, "7");
+=======
+        document.title = "7" + document.title.slice(1);
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
         location.hash = "";
         resolve(true);
       } else {
         if (hiddingPlace.includes("TITLE")) {
+<<<<<<< HEAD
           document.title = answer + "Speaking LMS";
+=======
+          document.title = answer + document.title.slice(1);
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
         }
         if (hiddingPlace.includes("URL")) {
           location.hash = answer;
@@ -555,7 +632,11 @@ async function completeExam(mode) {
   let question = await getExamQuestion();
   // reset response hiding place
   if (hiddenLevel == 3) {
+<<<<<<< HEAD
     document.title =document.title.replace(answer, "7");
+=======
+    document.title = "7" + document.title.slice(1);
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
     location.hash = "";
   }
 
@@ -601,15 +682,23 @@ async function completeExam(mode) {
   // This function is used to find the answer of the question with delay and random response
   async function findAnswer() {
     let answer = await getExamAnswer();
+<<<<<<< HEAD
     if(!answer?.SKIP) {
       log("Answer found", answer);      
     }
+=======
+    log("Answer found", answer);
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
     if (answer == null) {
       return null;
     }
 
     // Manipulate good and wrong answers number to be fully random but always respect the goodOne and falseOne values
+<<<<<<< HEAD
     if (canBeWrong && !answer?.SKIP) {
+=======
+    if (canBeWrong) {
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
       if (actualFalse == falseOne && actualGood == goodOne) {
         actualFalse = 0;
         actualGood = 0;
@@ -619,13 +708,21 @@ async function completeExam(mode) {
           log("Waiting and reply wrong with A (3s)");
           await sleep(3000);
           actualFalse++;
+<<<<<<< HEAD
           return await getExamWrongAnswer();
+=======
+          return "A";
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
         }
       }
       if (actualGood == goodOne && actualFalse < falseOne) {
         log("Waiting and reply wrong with A (3s)");
         actualFalse++;
+<<<<<<< HEAD
         return await getExamWrongAnswer();
+=======
+        return "A";
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
       }
       actualGood++;
     }
@@ -739,7 +836,11 @@ async function start() {
 
       const e = await waitForQuerySelector(".appBarTabs__testTab");
       e.click();
+<<<<<<< HEAD
     } /*  else if (isPath(/^\/quiz/)) {
+=======
+    }/*  else if (isPath(/^\/quiz/)) {
+>>>>>>> ec3aa6fff6299dd6662de1f8c1adb81b81467081
       log(`Current route is /quiz`);
 
       await waitForQuerySelector(".quiz__container");
